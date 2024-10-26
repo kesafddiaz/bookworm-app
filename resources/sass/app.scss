@@ -1,0 +1,49 @@
+@import "../node_modules/bootstrap/scss/bootstrap";
+@import "node_modules/bootstrap-icons/font/bootstrap-icons.css";
+@import 'home';
+
+
+nav{
+    background-color: $blue-300;
+}
+
+footer{
+    background-color: $blue-800;
+    color: white;
+}
+
+body{
+    color: $gray-700;
+}
+
+.rubik-marker-hatch-regular {
+    font-family: "Rubik Marker Hatch", system-ui;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.card{
+    border-radius: 5px;
+    width: 15rem;
+    margin-bottom: 15px;
+}
+
+#edit{
+    text-decoration-color: $warning;
+    color: $warning;
+}
+
+#delete{
+    text-decoration-color: $danger;
+    color: $danger;
+}
+
+#list{
+    text-decoration-color: $secondary;
+    color: $secondary;
+}
+
+#kembali{
+    text-decoration-color: $secondary;
+    color: $secondary;
+}
