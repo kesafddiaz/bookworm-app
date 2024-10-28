@@ -18,9 +18,9 @@
                 Bookworm
             </a>
             <div class="me-auto">
-                <ul class="navbar-nav ms-5">
+                <ul class="navbar-nav ms-5 fw-semibold">
                     <div class="vr"></div>
-                    <li class="nav-item">
+                    <li class="nav-item"> 
                         <a class="nav-link" href="{{ route('home') }}">Home</a>
                     </li>
                     <div class="vr"></div>
@@ -42,7 +42,6 @@
                     <div class="vr"></div>
                 </ul>
             </div>
-            {{--! atmin --}}
         </div>
     </nav>
         

@@ -18,6 +18,7 @@ Route::get('/orders/search', [OrdersController::class, 'search']) -> name('order
 Route::delete('/orders/delete/{orderId}', [OrdersController::class, 'delete']) -> name('orders.delete');
 Route::post('/orders/add/insert', [OrdersController::class, 'insert']) -> name('orders.insert');
 Route::get('/orders/add/{order?}', [OrdersController::class, 'addOrder']) -> name('orders.add');
+Route::get('/orders/add/{orderId}/export-pdf', [OrdersController::class, 'exportPdf']) -> name('orders.exportPdf');
 Route::put('/orders/update/{orderId}', [OrdersController::class, 'updateItem']) -> name('orders.item.update');
 Route::delete('/orders/delete/{orderId}/{bookId}', [OrdersController::class, 'deleteItem']) -> name('orders.item.delete');
 Route::get('/publishers', [PublisherController::class, 'index']) -> name('publishers');

@@ -25,6 +25,9 @@
                 </div>
             @endif
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tambahItemModal">Tambah Item</button>
+                <a href="{{ route('orders.exportPdf', $order->id) }}" class="btn btn-secondary">
+                    Export to PDF
+                </a>                
                 <div class="modal fade" id="tambahItemModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="tambahItemModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -33,6 +36,9 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
+                                <div class="alert alert-danger d-none" id="alert">
+                                    Quantity tidak boleh kurang dari 0
+                                </div>
                                 <form action="{{ route('orders.insert') }}" method="POST">
                                     @csrf
                                     @method('POST')
@@ -86,7 +92,7 @@
                             <td>{{ $item->judul }}</td>
                             <td>Rp{{ $item->harga }}</td>
                             <td>{{ $item->pivot->quantity }}</td>
-                            <td>Rp{{ ($item->harga)*($item->pivot->quantity)}}</td>
+                            <td>Rp{{ $item->pivot->total }}</td>
                             <td>
                                 <div class="btn-group">
                                     <button class="icon-link btn btn-link" id="edit" data-bs-toggle="modal" data-bs-target="#editItemModal-{{ $item->id }}">
@@ -111,6 +117,9 @@
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
+                                                <div class="alert alert-danger d-none" id="alert-{{ $item->id }}">
+                                                    Quantity tidak boleh kurang dari 0
+                                                </div>
                                                 <form action="{{ route('orders.item.update', ['orderId'=>$order->id]) }}" method="POST">
                                                     @csrf
                                                     @method('PUT')
@@ -162,23 +171,42 @@
             const price = selectedOption.getAttribute('data-bs-price');
             harga.value = price;
         });
+
         const total = document.getElementById('total');
         const qty = document.getElementById('qty');
+        const alertBox = document.getElementById('alert');
         qty.addEventListener('change', function() {
-            total.value = harga.value * qty.value;
+            if (qty.value < 0) {
+                alertBox.classList.remove('d-none');
+                qty.value = 0;
+                total.value = harga.value * qty.value;
+            } else {
+                alertBox.classList.add('d-none');
+                total.value = harga.value * qty.value;
+            }
         });
+        
         document.querySelectorAll('[id^="editItemModal-"]').forEach(modal => {
             const modalId = modal.id.split('-')[1];
             const hargaEdit = document.getElementById(`hargaEdit-${modalId}`);
             const qtyEdit = document.getElementById(`qtyEdit-${modalId}`);
             const totalEdit = document.getElementById(`totalEdit-${modalId}`);
+            const alertEdit = document.getElementById(`alert-${modalId}`);
             
             if (qtyEdit && hargaEdit && totalEdit) {
                 qtyEdit.addEventListener('change', function () {
-                    totalEdit.value = hargaEdit.value * qtyEdit.value;
+                    if (qtyEdit.value < 0) {
+                        alertEdit.classList.remove('d-none');
+                        qtyEdit.value = 0;
+                        totalEdit.value = hargaEdit.value * qtyEdit.value;
+                    } else {
+                        alertEdit.classList.add('d-none');
+                        totalEdit.value = hargaEdit.value * qtyEdit.value;
+                    }
                 });
             }
         });
+
         const customer = document.getElementById('customer');
         const nama = document.getElementById('nama');
         const date = document.getElementById('date');
@@ -188,10 +216,8 @@
             nama.value = customer.value;
             tanggal.value = date.value;
         }
-
         document.addEventListener('DOMContentLoaded', function() {
             copyValue();
-            
             customer.addEventListener('change', copyValue);
             date.addEventListener('change', copyValue);
         });

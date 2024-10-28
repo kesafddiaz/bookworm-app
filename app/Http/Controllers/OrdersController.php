@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Book;
 use App\Models\Order;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class OrdersController extends Controller
 {
@@ -55,14 +56,14 @@ class OrdersController extends Controller
         $book = $order->books()->where('book_id', $request->buku)->first();
         
         $totalBefore = $book->pivot->total;
-        // dd($book->pivot);
-        $order->books()->updateExistingPivot($request->buku, ['quantity' => $request->qty], ['total' => $request->total]);
+        
+        $order->books()->updateExistingPivot($request->buku, ['quantity' => $request->qty, 'total' => $request->total]);
         $difference = $request->total - $totalBefore;
-        // dd($difference);
+        
         $order->update([
             'grandTotal' => $order->grandTotal + $difference
         ]);
-        // dd($order);
+        
         return redirect()->route('orders.add', $order->id)->with('success', 'Order berhasil diubah');
     }
 
@@ -79,4 +80,13 @@ class OrdersController extends Controller
         $orders = Order::where('nama', 'like', "%$nama%")->get();
         return view('orderSearch', compact('orders'));
     }
+
+    public function exportPdf($orderId)
+{
+    $order = Order::with('books')->findOrFail($orderId);
+
+    $pdf = Pdf::loadView('orderPdf', compact('order'));
+
+    return $pdf->download('order_' . $order->id . '.pdf');
+}
 }
