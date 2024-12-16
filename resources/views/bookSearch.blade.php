@@ -8,6 +8,7 @@
                 <br><table class="table">
                     <thead>
                         <th scope="col">No.</th>
+                        <th scope="col">Cover</th>
                         <th scope="col">Judul</th>
                         <th scope="col">Penulis</th>
                         <th scope="col">Tahun Terbit</th>
@@ -20,6 +21,13 @@
                         @foreach($books as $book)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
+                                <td>
+                                    @if($book->image)
+                                        <img src="{{ asset('storage/' . $book->image) }}" alt="{{ $book->judul }}" class="img-thumbnail" style="width:100px; height:auto">
+                                    @else
+                                        <span>No Image</span>
+                                    @endif
+                                </td>
                                 <td>{{ $book->judul }}</td>
                                 <td>{{ $book->penulis }}</td>
                                 <td>{{ $book->tahun }}</td>

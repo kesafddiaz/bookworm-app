@@ -51,7 +51,6 @@ class OrdersController extends Controller
 
     public function updateItem(Request $request, $orderId)
     {
-        // dd($request->all());
         $order = Order::find($orderId);
         $book = $order->books()->where('book_id', $request->buku)->first();
         

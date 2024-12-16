@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Book extends Model
 {
     protected $table = 'books';
-    protected $fillable = ['judul', 'penulis', 'tahun', 'harga', 'stok', 'penerbit'];
+    protected $fillable = ['judul', 'penulis', 'tahun', 'harga', 'stok', 'penerbit', 'image'];
 
     public function orders()
     {

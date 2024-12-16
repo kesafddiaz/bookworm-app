@@ -14,6 +14,7 @@
                     <label for="date">Tanggal</label>
                     <input type="date" id="date" name="date" value="">
                 </div>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tambahItemModal">Tambah Item</button>
             @else
                 <div class="mb-3">
                     <label for="customer">Customer</label>
@@ -23,11 +24,11 @@
                     <label for="date">Tanggal</label>
                     <input type="date" id="date" name="date" value="{{ $order->tanggal }}">
                 </div>
-            @endif
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tambahItemModal">Tambah Item</button>
                 <a href="{{ route('orders.exportPdf', $order->id) }}" class="btn btn-secondary">
                     Export to PDF
-                </a>                
+                </a>   
+            @endif             
                 <div class="modal fade" id="tambahItemModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="tambahItemModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">

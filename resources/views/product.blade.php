@@ -26,36 +26,40 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body d-flex">
-                            <form action="{{ route('products.insert') }}" method="POST">
+                            <form action="{{ route('products.insert') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 @method('POST')
                                 <div class="mb-3">
-                                    <label for="judul"></label>
-                                    <input type="text" id="judul" name="judul" placeholder="Judul Buku">
+                                    <label for="judul">Judul Buku: </label>
+                                    <input type="text" id="judul" name="judul" placeholder="Judul Buku" class="form-control">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="penulis"></label>
-                                    <input type="text" id="penulis" name="penulis" placeholder="Penulis">
+                                    <label for="penulis">Penulis: </label>
+                                    <input type="text" id="penulis" name="penulis" placeholder="Penulis" class="form-control">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="tahun"></label>
-                                    <input type="text" id="tahun" name="tahun" placeholder="Tahun Terbit">
+                                    <label for="tahun">Tahun Terbit</label>
+                                    <input type="text" id="tahun" name="tahun" placeholder="Tahun" class="form-control">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="harga"></label>
-                                    <input type="text" id="harga" name="harga" placeholder="Harga">
+                                    <label for="harga">Harga: </label>
+                                    <input type="text" id="harga" name="harga" placeholder="Harga" class="form-control">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="stok"></label>
-                                    <input type="text" id="stok" name="stok" placeholder="Stok">
+                                    <label for="stok">Stok: </label>
+                                    <input type="text" id="stok" name="stok" placeholder="Stok" class="form-control">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="penerbit"></label>
-                                    <input type="text" id="penerbit" name="penerbit" placeholder="Penerbit">
+                                    <label for="penerbit">Penerbit: </label>
+                                    <input type="text" id="penerbit" name="penerbit" placeholder="Penerbit" class="form-control">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="genre"></label>
-                                    <textarea id="genre" name="genre" placeholder="Genre, pisahkan dengan koma"></textarea>
+                                    <label for="genre">Genre:</label>
+                                    <textarea id="genre" name="genre" placeholder="Genre, pisahkan dengan koma" class="form-control"></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="cover">Foto Sampul: </label>
+                                    <input type="file" id="cover" name="cover" class="form-control">
                                 </div>
                                 <button type="submit" class="btn btn-primary">Tambah</button>
                             </form>
@@ -71,6 +75,7 @@
                 <table class="table">
                     <thead>
                         <th scope="col">No.</th>
+                        <th scope="col">Cover</th>
                         <th scope="col">Judul</th>
                         <th scope="col">Penulis</th>
                         <th scope="col">Tahun Terbit</th>
@@ -84,6 +89,13 @@
                         @foreach($books as $book)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
+                                <td>
+                                    @if($book->image)
+                                        <img src="{{ asset('storage/' . $book->image) }}" alt="{{ $book->judul }}" class="img-thumbnail" style="width:100px; height:auto">
+                                    @else
+                                        <span>No Image</span>
+                                    @endif
+                                </td>
                                 <td>{{ $book->judul }}</td>
                                 <td>{{ $book->penulis }}</td>
                                 <td>{{ $book->tahun }}</td>
@@ -114,36 +126,40 @@
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <form action="{{ route('products.update', $book->id) }}" method="POST">
+                                                    <form action="{{ route('products.update', $book->id) }}" method="POST" enctype="multipart/form-data">
                                                         @csrf
                                                         @method('PUT')
                                                         <div class="mb-3">
-                                                            <label for="judul"></label>
-                                                            <input type="text" id="judul" name="judul" placeholder="Judul Buku" value="{{ $book->judul}}">
+                                                            <label for="judul">Judul: </label>
+                                                            <input type="text" id="judul" class="form-control" name="judul" placeholder="Judul Buku" value="{{ $book->judul}}">
                                                         </div>
                                                         <div class="mb-3">
-                                                            <label for="penulis"></label>
-                                                            <input type="text" id="penulis" name="penulis" placeholder="Penulis" value="{{ $book->penulis}}">
+                                                            <label for="penulis">Penulis: </label>
+                                                            <input type="text" id="penulis" class="form-control" name="penulis" placeholder="Penulis" value="{{ $book->penulis}}">
                                                         </div>
                                                         <div class="mb-3">
-                                                            <label for="tahun"></label>
-                                                            <input type="text" id="tahun" name="tahun" placeholder="Tahun Terbit" value="{{ $book->tahun}}">
+                                                            <label for="tahun">Tahun Terbit: </label>
+                                                            <input type="text" id="tahun" class="form-control" name="tahun" placeholder="Tahun" value="{{ $book->tahun}}">
                                                         </div>
                                                         <div class="mb-3">
-                                                            <label for="harga"></label>
-                                                            <input type="text" id="harga" name="harga" placeholder="Harga" value="{{ $book->harga}}">
+                                                            <label for="harga">Harga: </label>
+                                                            <input type="text" id="harga" class="form-control" name="harga" placeholder="Harga" value="{{ $book->harga}}">
                                                         </div>
                                                         <div class="mb-3">
-                                                            <label for="stok"></label>
-                                                            <input type="text" id="stok" name="stok" placeholder="Stok" value="{{ $book->stok}}">
+                                                            <label for="stok">Stok: </label>
+                                                            <input type="text" id="stok" class="form-control" name="stok" placeholder="Stok" value="{{ $book->stok}}">
                                                         </div>
                                                         <div class="mb-3">
-                                                            <label for="penerbit"></label>
-                                                            <input type="text" id="penerbit" name="penerbit" placeholder="Penerbit" value="{{ $book->publisher->nama}}">
+                                                            <label for="penerbit">Penerbit: </label>
+                                                            <input type="text" id="penerbit" class="form-control" name="penerbit" placeholder="Penerbit" value="{{ $book->publisher->nama}}">
                                                         </div>
                                                         <div class="mb-3">
-                                                            <label for="genre"></label>
-                                                            <textarea id="genre" name="genre" placeholder="Genre, pisahkan dengan koma">{{ $book->genres->pluck('nama')->implode(', ')}}</textarea>
+                                                            <label for="genre">Genre: </label>
+                                                            <textarea id="genre" class="form-control" name="genre" placeholder="Genre, pisahkan dengan koma">{{ $book->genres->pluck('nama')->implode(', ')}}</textarea>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="cover">Foto Sampul: </label>
+                                                            <input type="file" id="cover" class="form-control" name="cover">
                                                         </div>
                                                         <button type="submit" class="btn btn-primary">Ubah</button>
                                                     </form>
